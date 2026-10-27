@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Интерактивная организационная модель взаимодействия государства и частного сектора при формировании ИИ-компетентности педагогов. Пояснения и источники из ВКР Л. А. Алексеевой.">
+<title>Интерактивная модель ИИ-компетентности педагогов</title>
+<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div>
+        <p class="eyebrow">Интерактивное приложение к ВКР</p>
+        <h1>Организационная модель взаимодействия государства и частного сектора при формировании ИИ-компетентности педагогов в условиях реализации национального проекта «Искусственный интеллект»</h1>
+      </div>
+    </div>
+    <nav class="top-actions" aria-label="Навигация по материалам">
+      <button class="ui-button" id="open-blocks" type="button" title="Открыть перечень блоков">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/></svg>
+        <span>Блоки</span>
+      </button>
+      <button class="ui-button" id="open-sources" type="button" title="Открыть список использованных источников">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5zM5 4.5v17M9 6h7M9 10h7"/></svg>
+        <span>Источники</span>
+      </button>
+      <button class="ui-button icon-only-mobile" id="fullscreen" type="button" title="Открыть на весь экран" aria-label="Открыть на весь экран">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/></svg>
+        <span>Весь экран</span>
+      </button>
+    </nav>
+  </header>
+
+  <div class="toolbar">
+    <div class="instruction">
+      <span class="instruction-dot" aria-hidden="true"></span>
+      <span>Нажмите на любой блок схемы — откроются пояснение и литература из ВКР</span>
+    </div>
+    <div class="view-controls" aria-label="Управление масштабом">
+      <button id="toggle-zones" class="text-control" type="button" aria-pressed="false" title="Показать все интерактивные зоны">Показать зоны</button>
+      <span class="control-divider" aria-hidden="true"></span>
+      <button id="zoom-out" class="zoom-button" type="button" aria-label="Уменьшить схему" title="Уменьшить">−</button>
+      <button id="zoom-reset" class="zoom-value" type="button" title="Вписать схему в экран">100%</button>
+      <button id="zoom-in" class="zoom-button" type="button" aria-label="Увеличить схему" title="Увеличить">+</button>
+    </div>
+  </div>
+
+  <main class="workspace" id="workspace">
+    <section class="diagram-shell" aria-label="Интерактивная схема организационной модели">
+      <div id="viewport" class="viewport" tabindex="0" aria-label="Схема. Используйте кнопки масштабирования; после увеличения схему можно перемещать.">
+        <div id="canvas" class="canvas">
+          <img id="diagram-image" src="./model.png" width="1474" height="1184" alt="Организационная модель взаимодействия государства и частного сектора при формировании ИИ-компетентности педагогов" draggable="false">
+          <div id="hotspots" class="hotspots"></div>
+        </div>
+      </div>
+      <div class="diagram-footer">
+        <p>Рис. 1. Организационная модель (авторская разработка)</p>
+        <p class="pan-hint">Колёсико — масштаб · перетаскивание — перемещение</p>
+      </div>
+      <div id="first-hint" class="first-hint" role="status">
+        <span class="mouse-symbol" aria-hidden="true"></span>
+        <span>Выберите блок на схеме</span>
+        <button type="button" aria-label="Скрыть подсказку" id="hide-hint">×</button>
+      </div>
+    </section>
+
+    <aside id="details" class="details" aria-label="Пояснение к блоку" hidden>
+      <div class="details-head">
+        <div>
+          <p id="detail-kind" class="detail-kind"></p>
+          <p id="detail-counter" class="detail-counter"></p>
+        </div>
+        <button id="close-details" class="close-button" type="button" aria-label="Закрыть пояснение">×</button>
+      </div>
+      <div class="details-body" id="details-body">
+        <h2 id="detail-title" tabindex="-1"></h2>
+        <p id="detail-section" class="detail-section"></p>
+        <div id="detail-description" class="detail-description"></div>
+        <section class="references" aria-labelledby="references-title">
+          <div class="references-heading">
+            <h3 id="references-title">Литература из ВКР</h3>
+            <span id="reference-count"></span>
+          </div>
+          <div id="detail-references" class="reference-list"></div>
+        </section>
+      </div>
+      <div class="details-actions">
+        <button id="copy-link" class="copy-link" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.1-1.1"/></svg>
+          Ссылка на блок
+        </button>
+        <div class="prev-next">
+          <button id="prev-block" type="button" aria-label="Предыдущий блок" title="Предыдущий блок">←</button>
+          <button id="next-block" type="button" aria-label="Следующий блок" title="Следующий блок">→</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<dialog id="blocks-dialog" class="library-dialog">
+  <div class="dialog-head">
+    <div>
+      <p class="dialog-eyebrow">Навигация</p>
+      <h2>Блоки организационной модели</h2>
+    </div>
+    <button class="close-button dialog-close" type="button" aria-label="Закрыть">×</button>
+  </div>
+  <div class="dialog-search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    <input id="block-search" type="search" placeholder="Найти блок…" autocomplete="off" aria-label="Поиск по блокам">
+  </div>
+  <div id="block-list" class="block-list"></div>
+</dialog>
+
+<dialog id="sources-dialog" class="library-dialog sources-dialog">
+  <div class="dialog-head">
+    <div>
+      <p class="dialog-eyebrow">Список использованных источников</p>
+      <h2>Литература из ВКР <span id="sources-total"></span></h2>
+    </div>
+    <button class="close-button dialog-close" type="button" aria-label="Закрыть">×</button>
+  </div>
+  <div class="dialog-search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    <input id="source-search" type="search" placeholder="Автор, название, номер источника…" autocomplete="off" aria-label="Поиск по источникам">
+  </div>
+  <p id="source-results" class="source-results" aria-live="polite"></p>
+  <div id="source-list" class="source-list"></div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="./src/data.js"></script>
+<script src="./src/main.js"></script>
+</body>
+</html>
